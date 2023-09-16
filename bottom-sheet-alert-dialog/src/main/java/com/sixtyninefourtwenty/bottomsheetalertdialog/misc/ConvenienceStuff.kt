@@ -6,6 +6,7 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog.misc
 import android.content.Context
 import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogActions
 import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogFragmentViewBuilder
 import com.sixtyninefourtwenty.bottomsheetalertdialog.DialogButtonProperties
 
@@ -16,7 +17,8 @@ fun BottomSheetDialogFragment.createBottomSheetAlertDialog(
     titleText: CharSequence? = null,
     positiveButtonProperties: DialogButtonProperties? = null,
     neutralButtonProperties: DialogButtonProperties? = null,
-    negativeButtonProperties: DialogButtonProperties? = null
+    negativeButtonProperties: DialogButtonProperties? = null,
+    action: ((BottomSheetAlertDialogActions) -> Unit)? = null
 ) = BottomSheetAlertDialogFragmentViewBuilder(view, this, isFullscreen, context).apply {
     if (titleText != null) {
         setTitle(titleText)
@@ -29,5 +31,8 @@ fun BottomSheetDialogFragment.createBottomSheetAlertDialog(
     }
     if (negativeButtonProperties != null) {
         setNegativeButton(negativeButtonProperties)
+    }
+    if (action != null) {
+        doActions(action::invoke)
     }
 }

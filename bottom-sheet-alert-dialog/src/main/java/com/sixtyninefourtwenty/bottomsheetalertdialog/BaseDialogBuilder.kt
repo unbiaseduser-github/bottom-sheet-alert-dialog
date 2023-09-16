@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sixtyninefourtwenty.bottomsheetalertdialog.internal.BottomSheetAlertDialogCommon
+import java.util.function.Consumer
 
 sealed class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
@@ -16,6 +17,7 @@ sealed class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
 
     private val shouldBeFullScreen: Boolean
     protected val ui: BottomSheetAlertDialogCommon
+    private val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
     protected abstract fun self(): T
 
@@ -36,6 +38,8 @@ sealed class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     fun setNeutralButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEUTRAL, properties) }
     fun setNegativeButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEGATIVE, properties) }
 
+    fun doActions(block: Consumer<BottomSheetAlertDialogActions>) = self().apply { block.accept(actions) }
+
     /**
      * Must be called by subclasses in their `init` block.
      */
@@ -54,6 +58,7 @@ sealed class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
         ui = BottomSheetAlertDialogCommon.create(context, shouldBeFullScreen).apply {
             setContentView(view)
         }
+        actions = BottomSheetAlertDialogActions(ui)
     }
 
 }
