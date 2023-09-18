@@ -17,7 +17,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
 
     private val shouldBeFullScreen: Boolean
     protected val ui: BottomSheetAlertDialogCommon
-    private val actions: BottomSheetAlertDialogActions
+    protected val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
     protected abstract fun self(): T
 
