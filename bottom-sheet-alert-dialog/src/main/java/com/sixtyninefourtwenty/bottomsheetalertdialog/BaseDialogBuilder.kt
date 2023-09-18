@@ -38,7 +38,7 @@ sealed class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     fun setNeutralButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEUTRAL, properties) }
     fun setNegativeButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEGATIVE, properties) }
 
-    fun doActions(block: Consumer<BottomSheetAlertDialogActions>) = self().apply { block.accept(actions) }
+    fun doActions(block: Consumer<in BottomSheetAlertDialogActions>) = self().apply { block.accept(actions) }
 
     /**
      * Must be called by subclasses in their `init` block.
