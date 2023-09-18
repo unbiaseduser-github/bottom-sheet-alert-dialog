@@ -9,7 +9,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sixtyninefourtwenty.bottomsheetalertdialog.internal.BottomSheetAlertDialogCommon
 import java.util.function.Consumer
 
-sealed class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
+abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
     context: Context,
     isFullscreen: Boolean = false
