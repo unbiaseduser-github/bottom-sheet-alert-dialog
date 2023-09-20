@@ -21,12 +21,12 @@ import kotlin.contracts.contract
 
 sealed class BottomSheetAlertDialogCommon(protected val context: Context) {
     abstract val root: View
-    abstract val title: TextView
-    abstract val content: ScrollView
-    abstract val buttonContainer: RelativeLayout
-    abstract val positiveButton: Button
-    abstract val neutralButton: Button
-    abstract val negativeButton: Button
+    protected abstract val title: TextView
+    protected abstract val content: ScrollView
+    protected abstract val buttonContainer: RelativeLayout
+    protected abstract val positiveButton: Button
+    protected abstract val neutralButton: Button
+    protected abstract val negativeButton: Button
 
     fun setTitle(@StringRes titleRes: Int) {
         with(title) {
