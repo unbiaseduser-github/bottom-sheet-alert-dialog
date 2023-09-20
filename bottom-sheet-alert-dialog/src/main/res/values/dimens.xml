@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="bsad_title_padding_vertical">16dp</dimen>
+    <dimen name="bsad_button_container_padding_vertical">12dp</dimen>
+    <dimen name="bsad_positive_button_margin_end">16dp</dimen>
+    <dimen name="bsad_negative_button_margin_end">8dp</dimen>
+    <dimen name="bsad_neutral_button_margin_start">16dp</dimen>
+
+</resources>
