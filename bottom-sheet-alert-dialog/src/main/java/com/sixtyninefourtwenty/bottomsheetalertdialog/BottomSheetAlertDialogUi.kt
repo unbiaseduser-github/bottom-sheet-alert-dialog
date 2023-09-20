@@ -1,4 +1,4 @@
-package com.sixtyninefourtwenty.bottomsheetalertdialog.internal
+package com.sixtyninefourtwenty.bottomsheetalertdialog
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,8 +9,6 @@ import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
-import com.sixtyninefourtwenty.bottomsheetalertdialog.ButtonAppearanceProperties
-import com.sixtyninefourtwenty.bottomsheetalertdialog.DialogButton
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogFullscreenUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogNotFullscreenUiBinding
 
@@ -70,7 +68,8 @@ sealed interface BottomSheetAlertDialogCommon {
 
 }
 
-private class BottomSheetAlertDialogFullscreenUi(override val context: Context) : BottomSheetAlertDialogCommon {
+private class BottomSheetAlertDialogFullscreenUi(override val context: Context) :
+    BottomSheetAlertDialogCommon {
 
     private val binding = BottomSheetAlertDialogFullscreenUiBinding.inflate(LayoutInflater.from(context))
 
@@ -84,7 +83,8 @@ private class BottomSheetAlertDialogFullscreenUi(override val context: Context) 
 
 }
 
-private class BottomSheetAlertDialogNotFullscreenUi(override val context: Context) : BottomSheetAlertDialogCommon {
+private class BottomSheetAlertDialogNotFullscreenUi(override val context: Context) :
+    BottomSheetAlertDialogCommon {
 
     private val binding = BottomSheetAlertDialogNotFullscreenUiBinding.inflate(LayoutInflater.from(context))
 

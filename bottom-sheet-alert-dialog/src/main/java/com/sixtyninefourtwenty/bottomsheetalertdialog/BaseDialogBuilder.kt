@@ -6,7 +6,6 @@ import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.sixtyninefourtwenty.bottomsheetalertdialog.internal.BottomSheetAlertDialogCommon
 import java.util.function.Consumer
 
 abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
