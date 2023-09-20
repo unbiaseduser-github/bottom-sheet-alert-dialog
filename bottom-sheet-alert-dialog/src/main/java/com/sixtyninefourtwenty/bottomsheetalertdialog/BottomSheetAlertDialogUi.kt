@@ -19,15 +19,14 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-sealed interface BottomSheetAlertDialogCommon {
-    val context: Context
-    val root: View
-    val title: TextView
-    val content: ScrollView
-    val buttonContainer: RelativeLayout
-    val positiveButton: Button
-    val neutralButton: Button
-    val negativeButton: Button
+sealed class BottomSheetAlertDialogCommon(protected val context: Context) {
+    abstract val root: View
+    abstract val title: TextView
+    abstract val content: ScrollView
+    abstract val buttonContainer: RelativeLayout
+    abstract val positiveButton: Button
+    abstract val neutralButton: Button
+    abstract val negativeButton: Button
 
     fun setTitle(@StringRes titleRes: Int) {
         with(title) {
@@ -50,7 +49,7 @@ sealed interface BottomSheetAlertDialogCommon {
         }
     }
 
-    fun getButton(whichButton: DialogButton): Button {
+    private fun getButton(whichButton: DialogButton): Button {
         return when (whichButton) {
             DialogButton.POSITIVE -> positiveButton
             DialogButton.NEGATIVE -> negativeButton
@@ -68,8 +67,16 @@ sealed interface BottomSheetAlertDialogCommon {
         }
     }
 
+    fun setButtonOnClickListener(whichButton: DialogButton, onClickListener: View.OnClickListener) {
+        getButton(whichButton).setOnClickListener(onClickListener)
+    }
+
+    fun setButtonEnabled(whichButton: DialogButton, enabled: Boolean) {
+        getButton(whichButton).isEnabled = enabled
+    }
+
     @SuppressLint("Recycle")
-    fun init() {
+    protected fun init() {
         context.obtainStyledAttributes(intArrayOf(R.attr.bsadTitleStyle)).useCompat {
             val textAppearance = it.getResourceId(0, com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5)
             title.setTextAppearanceCompat(context, textAppearance)
@@ -83,8 +90,8 @@ sealed interface BottomSheetAlertDialogCommon {
 
 }
 
-private class BottomSheetAlertDialogFullscreenUi(override val context: Context) :
-    BottomSheetAlertDialogCommon {
+private class BottomSheetAlertDialogFullscreenUi(context: Context) :
+    BottomSheetAlertDialogCommon(context) {
 
     private val binding = BottomSheetAlertDialogFullscreenUiBinding.inflate(LayoutInflater.from(context))
 
@@ -102,9 +109,8 @@ private class BottomSheetAlertDialogFullscreenUi(override val context: Context) 
 
 }
 
-@SuppressLint("Recycle")
-private class BottomSheetAlertDialogNotFullscreenUi(override val context: Context) :
-    BottomSheetAlertDialogCommon {
+private class BottomSheetAlertDialogNotFullscreenUi(context: Context) :
+    BottomSheetAlertDialogCommon(context) {
 
     private val binding = BottomSheetAlertDialogNotFullscreenUiBinding.inflate(LayoutInflater.from(context))
 
