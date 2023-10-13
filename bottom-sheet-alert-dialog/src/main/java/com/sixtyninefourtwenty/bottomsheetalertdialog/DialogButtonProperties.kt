@@ -7,7 +7,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.function.Consumer
 
 class DialogButtonProperties private constructor(
-    textRes: Int,
+    @StringRes textRes: Int,
     text: CharSequence?,
     internal val listener: Runnable?,
     @Deprecated(message = "Unsafe API - will be removed in next major release")
@@ -17,7 +17,7 @@ class DialogButtonProperties private constructor(
 
     companion object {
         @JvmStatic
-        fun ofOnlyText(textRes: Int) = DialogButtonProperties(textRes)
+        fun ofOnlyText(@StringRes textRes: Int) = DialogButtonProperties(textRes)
         @JvmStatic
         fun ofOnlyText(text: CharSequence) = DialogButtonProperties(text)
     }
@@ -26,11 +26,13 @@ class DialogButtonProperties private constructor(
      * [listenerWithDialog] is deprecated and will be removed in the next major release.
      */
     constructor(
-        textRes: Int,
+        @StringRes textRes: Int,
         listener: Runnable? = null,
         listenerWithDialog: Consumer<BottomSheetDialog>? = null,
         dismissAfterClick: Boolean = true
-    ) : this(textRes, null, listener, listenerWithDialog, dismissAfterClick)
+    ) : this(textRes, null, listener, listenerWithDialog, dismissAfterClick) {
+        require(textRes != 0) { "textRes must not be 0" }
+    }
 
     /**
      * [listenerWithDialog] is deprecated and will be removed in the next major release.
@@ -40,7 +42,9 @@ class DialogButtonProperties private constructor(
         listener: Runnable? = null,
         listenerWithDialog: Consumer<BottomSheetDialog>? = null,
         dismissAfterClick: Boolean = true
-    ) : this(0, text, listener, listenerWithDialog, dismissAfterClick)
+    ) : this(0, text, listener, listenerWithDialog, dismissAfterClick) {
+        require(text.isNotBlank()) { "text must not be blank" }
+    }
 
     private constructor(builder: Builder) : this(
         builder.textRes,
@@ -51,11 +55,15 @@ class DialogButtonProperties private constructor(
     )
 
     class Builder private constructor(
-        textRes: Int,
+        @StringRes textRes: Int,
         text: CharSequence?
     ) : ButtonAppearanceProperties.Builder<Builder>(textRes, text) {
-        constructor(@StringRes textRes: Int) : this(textRes, null)
-        constructor(text: CharSequence) : this(0, text)
+        constructor(@StringRes textRes: Int) : this(textRes, null) {
+            require(textRes != 0) { "textRes must not be 0" }
+        }
+        constructor(text: CharSequence) : this(0, text) {
+            require(text.isNotBlank()) { "text must not be blank" }
+        }
 
         internal var listener: Runnable? = null
             private set

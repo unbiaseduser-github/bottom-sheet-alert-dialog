@@ -1,11 +1,13 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog
 
+import androidx.annotation.StringRes
+
 sealed class ButtonAppearanceProperties(
-    internal val textRes: Int,
+    @StringRes internal val textRes: Int,
     internal val text: CharSequence?
 ) {
     sealed class Builder<T : Builder<T>>(
-        internal val textRes: Int,
+        @StringRes internal val textRes: Int,
         internal val text: CharSequence?
     ) {
         abstract fun self(): T
