@@ -26,7 +26,8 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     private fun applyBtnProps(whichButton: DialogButton, props: DialogButtonProperties) {
         ui.setButtonAppearance(whichButton, props)
         ui.setButtonOnClickListener(whichButton) {
-            props.listenerWithDialog?.accept(dialog) ?: props.listener?.run()
+            props.listenerWithDialog?.accept(dialog)
+            props.listener?.run()
             if (props.dismissAfterClick) {
                 dialog.dismiss()
             }

@@ -10,6 +10,7 @@ class DialogButtonProperties private constructor(
     textRes: Int,
     text: CharSequence?,
     internal val listener: Runnable?,
+    @Deprecated(message = "Unsafe API - will be removed in next major release")
     internal val listenerWithDialog: Consumer<BottomSheetDialog>?,
     internal val dismissAfterClick: Boolean
 ) : ButtonAppearanceProperties(textRes, text) {
@@ -21,6 +22,9 @@ class DialogButtonProperties private constructor(
         fun ofOnlyText(text: CharSequence) = DialogButtonProperties(text)
     }
 
+    /**
+     * [listenerWithDialog] is deprecated and will be removed in the next major release.
+     */
     constructor(
         textRes: Int,
         listener: Runnable? = null,
@@ -28,6 +32,9 @@ class DialogButtonProperties private constructor(
         dismissAfterClick: Boolean = true
     ) : this(textRes, null, listener, listenerWithDialog, dismissAfterClick)
 
+    /**
+     * [listenerWithDialog] is deprecated and will be removed in the next major release.
+     */
     constructor(
         text: CharSequence,
         listener: Runnable? = null,
@@ -57,6 +64,7 @@ class DialogButtonProperties private constructor(
             private set
         internal var dismissAfterClick = true
             private set
+        @Deprecated(message = "Unsafe API - will be removed in next major release")
         fun setOnClickListener(listener: Consumer<BottomSheetDialog>) = apply { listenerWithDialog = listener }
         fun disableDismissAfterClick() = apply { dismissAfterClick = false }
         override fun self() = this
