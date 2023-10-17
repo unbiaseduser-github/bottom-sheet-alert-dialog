@@ -3,7 +3,6 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -12,7 +11,7 @@ import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.annotation.StyleRes
+import androidx.core.widget.TextViewCompat
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogFullscreenUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogNotFullscreenUiBinding
 import kotlin.contracts.ExperimentalContracts
@@ -79,7 +78,7 @@ sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
     protected fun init() {
         context.obtainStyledAttributes(intArrayOf(R.attr.bsadTitleStyle)).useCompat {
             val textAppearance = it.getResourceId(0, com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5)
-            title.setTextAppearanceCompat(context, textAppearance)
+            TextViewCompat.setTextAppearance(title, textAppearance)
         }
     }
 
@@ -142,14 +141,5 @@ private inline fun <R> TypedArray.useCompat(block: (TypedArray) -> R): R {
         } finally {
             recycle()
         }
-    }
-}
-
-private fun TextView.setTextAppearanceCompat(context: Context, @StyleRes resId: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        setTextAppearance(resId)
-    } else {
-        @Suppress("DEPRECATION")
-        setTextAppearance(context, resId)
     }
 }
