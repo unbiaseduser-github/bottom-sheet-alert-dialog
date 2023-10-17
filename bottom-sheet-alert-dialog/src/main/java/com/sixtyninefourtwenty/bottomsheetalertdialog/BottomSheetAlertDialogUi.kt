@@ -84,7 +84,8 @@ sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
     }
 
     companion object {
-        fun create(context: Context, isFullscreen: Boolean) =
+        @JvmSynthetic
+        internal fun create(context: Context, isFullscreen: Boolean) =
             if (isFullscreen) BottomSheetAlertDialogFullscreenUi(context) else BottomSheetAlertDialogNotFullscreenUi(context)
     }
 
