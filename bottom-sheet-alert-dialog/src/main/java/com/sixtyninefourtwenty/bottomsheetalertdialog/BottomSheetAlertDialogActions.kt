@@ -1,6 +1,6 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog
 
-class BottomSheetAlertDialogActions internal constructor(private val ui: BottomSheetAlertDialogCommon) {
+class BottomSheetAlertDialogActions internal constructor(private val ui: BottomSheetAlertDialogCommonUi) {
 
     fun enableButton(button: DialogButton) {
         ui.setButtonEnabled(button, true)

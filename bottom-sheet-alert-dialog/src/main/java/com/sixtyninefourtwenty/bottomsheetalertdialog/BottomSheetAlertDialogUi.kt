@@ -19,7 +19,7 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-sealed class BottomSheetAlertDialogCommon(protected val context: Context) {
+sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
     abstract val root: View
     protected abstract val title: TextView
     protected abstract val content: ScrollView
@@ -91,7 +91,7 @@ sealed class BottomSheetAlertDialogCommon(protected val context: Context) {
 }
 
 private class BottomSheetAlertDialogFullscreenUi(context: Context) :
-    BottomSheetAlertDialogCommon(context) {
+    BottomSheetAlertDialogCommonUi(context) {
 
     private val binding = BottomSheetAlertDialogFullscreenUiBinding.inflate(LayoutInflater.from(context))
 
@@ -110,7 +110,7 @@ private class BottomSheetAlertDialogFullscreenUi(context: Context) :
 }
 
 private class BottomSheetAlertDialogNotFullscreenUi(context: Context) :
-    BottomSheetAlertDialogCommon(context) {
+    BottomSheetAlertDialogCommonUi(context) {
 
     private val binding = BottomSheetAlertDialogNotFullscreenUiBinding.inflate(LayoutInflater.from(context))
 

@@ -15,7 +15,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
 ) {
 
     private val shouldBeFullScreen: Boolean
-    protected val ui: BottomSheetAlertDialogCommon
+    protected val ui: BottomSheetAlertDialogCommonUi
     protected val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
     protected abstract fun self(): T
@@ -55,7 +55,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     init {
         val isLandscape = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         shouldBeFullScreen = isFullscreen || isLandscape
-        ui = BottomSheetAlertDialogCommon.create(context, shouldBeFullScreen).apply {
+        ui = BottomSheetAlertDialogCommonUi.create(context, shouldBeFullScreen).apply {
             setContentView(view)
         }
         actions = BottomSheetAlertDialogActions(ui)
