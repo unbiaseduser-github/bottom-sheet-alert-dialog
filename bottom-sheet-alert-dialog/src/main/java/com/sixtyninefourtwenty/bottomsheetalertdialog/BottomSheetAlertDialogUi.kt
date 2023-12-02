@@ -1,8 +1,6 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.TypedArray
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -14,9 +12,6 @@ import androidx.annotation.StringRes
 import androidx.core.widget.TextViewCompat
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogFullscreenUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogNotFullscreenUiBinding
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
 /**
  * Class abstracting UI elements. A concrete implementation will be created by [BaseDialogBuilder]
@@ -85,12 +80,11 @@ sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
         getButton(whichButton).isEnabled = enabled
     }
 
-    @SuppressLint("Recycle")
     protected fun init() {
-        context.obtainStyledAttributes(intArrayOf(R.attr.bsadTitleStyle)).useCompat {
-            val textAppearance = it.getResourceId(0, com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5)
-            TextViewCompat.setTextAppearance(title, textAppearance)
-        }
+        val ta = context.obtainStyledAttributes(intArrayOf(R.attr.bsadTitleStyle))
+        val textAppearance = ta.getResourceId(0, com.google.android.material.R.style.TextAppearance_MaterialComponents_Headline5)
+        TextViewCompat.setTextAppearance(title, textAppearance)
+        ta.recycle()
     }
 
     companion object {
@@ -137,20 +131,4 @@ private class BottomSheetAlertDialogNotFullscreenUi(context: Context) :
         init()
     }
 
-}
-
-@OptIn(ExperimentalContracts::class)
-private inline fun <R> TypedArray.useCompat(block: (TypedArray) -> R): R {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-    return if (this is AutoCloseable) {
-        use(block)
-    } else {
-        try {
-            block(this)
-        } finally {
-            recycle()
-        }
-    }
 }
