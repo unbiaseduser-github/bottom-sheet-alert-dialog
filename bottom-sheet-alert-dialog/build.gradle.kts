@@ -49,7 +49,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.sixtyninefourtwenty"
                 artifactId = "bottom-sheet-alert-dialog"
-                version = "1.0"
+                version = "1.1"
 
                 from(components["release"])
 
