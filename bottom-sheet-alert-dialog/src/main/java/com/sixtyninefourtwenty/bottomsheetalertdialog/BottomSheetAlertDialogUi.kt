@@ -63,14 +63,18 @@ sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
         }
     }
 
-    fun setButtonAppearance(whichButton: DialogButton, properties: ButtonAppearanceProperties) {
+    fun setButtonAppearance(whichButton: DialogButton, textRes: Int, text: CharSequence?) {
         with(getButton(whichButton)) {
             visibility = View.VISIBLE
             when {
-                properties.textRes != 0 -> setText(properties.textRes)
-                properties.text != null -> text = properties.text
+                textRes != 0 -> setText(textRes)
+                text != null -> setText(text)
             }
         }
+    }
+
+    fun setButtonAppearance(whichButton: DialogButton, properties: ButtonAppearanceProperties) {
+        setButtonAppearance(whichButton, properties.textRes, properties.text)
     }
 
     fun setButtonOnClickListener(whichButton: DialogButton, onClickListener: View.OnClickListener) {

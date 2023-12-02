@@ -32,6 +32,22 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     fun setTitle(@StringRes titleRes: Int) = self().apply { ui.setTitle(titleRes) }
     fun setTitle(titleText: CharSequence) = self().apply { ui.setTitle(titleText) }
 
+    private fun applyBtnProps(
+        whichButton: DialogButton,
+        text: CharSequence,
+        listener: (() -> Unit)?,
+        dismissAfterClick: Boolean
+    ) {
+        require(text.isNotBlank()) { "text must not be blank" }
+        ui.setButtonAppearance(whichButton, 0, text)
+        ui.setButtonOnClickListener(whichButton) {
+            listener?.invoke()
+            if (dismissAfterClick) {
+                dialog.dismiss()
+            }
+        }
+    }
+
     private fun applyBtnProps(whichButton: DialogButton, props: DialogButtonProperties) {
         ui.setButtonAppearance(whichButton, props)
         ui.setButtonOnClickListener(whichButton) {
@@ -43,8 +59,23 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
         }
     }
 
+    fun setPositiveButton(
+        text: CharSequence,
+        listener: (() -> Unit)? = null,
+        dismissAfterClick: Boolean = true
+    ) = self().apply { applyBtnProps(DialogButton.POSITIVE, text, listener, dismissAfterClick) }
     fun setPositiveButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.POSITIVE, properties) }
+    fun setNeutralButton(
+        text: CharSequence,
+        listener: (() -> Unit)? = null,
+        dismissAfterClick: Boolean = true
+    ) = self().apply { applyBtnProps(DialogButton.NEUTRAL, text, listener, dismissAfterClick) }
     fun setNeutralButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEUTRAL, properties) }
+    fun setNegativeButton(
+        text: CharSequence,
+        listener: (() -> Unit)? = null,
+        dismissAfterClick: Boolean = true
+    ) = self().apply { applyBtnProps(DialogButton.NEGATIVE, text, listener, dismissAfterClick) }
     fun setNegativeButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEGATIVE, properties) }
 
     fun doActions(block: Consumer<in BottomSheetAlertDialogActions>) = self().apply { block.accept(actions) }
