@@ -8,6 +8,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.function.Consumer
 
+/**
+ * Base builder class. Can be publicly extended to create your own builders.
+ *
+ * Implementation notes: Subclasses must call [initDialogBehavior] to get correct dialog behavior.
+ */
 abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
     context: Context,
@@ -18,6 +23,10 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     protected val ui: BottomSheetAlertDialogCommonUi
     protected val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
+
+    /**
+     * Subclasses must override this method to `return this`
+     */
     protected abstract fun self(): T
 
     fun setTitle(@StringRes titleRes: Int) = self().apply { ui.setTitle(titleRes) }
@@ -41,7 +50,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     fun doActions(block: Consumer<in BottomSheetAlertDialogActions>) = self().apply { block.accept(actions) }
 
     /**
-     * Must be called by subclasses in their `init` block.
+     * Must be called by subclasses when they are initialized.
      */
     protected fun initDialogBehavior() {
         with(dialog.behavior) {

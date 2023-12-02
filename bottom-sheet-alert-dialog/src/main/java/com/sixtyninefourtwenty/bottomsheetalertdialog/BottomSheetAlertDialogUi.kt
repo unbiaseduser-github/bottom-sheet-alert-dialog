@@ -18,6 +18,13 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+/**
+ * Class abstracting UI elements. A concrete implementation will be created by [BaseDialogBuilder]
+ * depending on [BaseDialogBuilder.shouldBeFullScreen].
+ *
+ * Provides methods for setting UI stuff, used by
+ * [BaseDialogBuilder] and subclasses.
+ */
 sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
     abstract val root: View
     protected abstract val title: TextView

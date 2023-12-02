@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Style resource used by the bottom sheet's title -->
     <attr name="bsadTitleStyle" format="reference"/>
 
 </resources>

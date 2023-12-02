@@ -6,6 +6,10 @@ import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.function.Consumer
 
+/**
+ * Represents properties that will be applied to the bottom sheet view's buttons via the builders'
+ * `setXButton` methods.
+ */
 class DialogButtonProperties private constructor(
     @StringRes textRes: Int,
     text: CharSequence?,
@@ -16,14 +20,23 @@ class DialogButtonProperties private constructor(
 ) : ButtonAppearanceProperties(textRes, text) {
 
     companion object {
+        /**
+         * Creates a [DialogButtonProperties] with only the [textRes] property and nothing else.
+         * @throws IllegalArgumentException if [textRes] is 0
+         */
         @JvmStatic
         fun ofOnlyText(@StringRes textRes: Int) = DialogButtonProperties(textRes)
+        /**
+         * Creates a [DialogButtonProperties] with only the [text] property and nothing else.
+         * @throws IllegalArgumentException if [text] is blank
+         */
         @JvmStatic
         fun ofOnlyText(text: CharSequence) = DialogButtonProperties(text)
     }
 
     /**
      * [listenerWithDialog] is deprecated and will be removed in the next major release.
+     * @throws IllegalArgumentException if [textRes] is 0
      */
     constructor(
         @StringRes textRes: Int,
@@ -36,6 +49,7 @@ class DialogButtonProperties private constructor(
 
     /**
      * [listenerWithDialog] is deprecated and will be removed in the next major release.
+     * @throws IllegalArgumentException if [text] is blank
      */
     constructor(
         text: CharSequence,
