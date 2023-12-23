@@ -59,18 +59,21 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
         }
     }
 
+    @JvmSynthetic
     fun setPositiveButton(
         text: CharSequence,
         listener: (() -> Unit)? = null,
         dismissAfterClick: Boolean = true
     ) = self().apply { applyBtnProps(DialogButton.POSITIVE, text, listener, dismissAfterClick) }
     fun setPositiveButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.POSITIVE, properties) }
+    @JvmSynthetic
     fun setNeutralButton(
         text: CharSequence,
         listener: (() -> Unit)? = null,
         dismissAfterClick: Boolean = true
     ) = self().apply { applyBtnProps(DialogButton.NEUTRAL, text, listener, dismissAfterClick) }
     fun setNeutralButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEUTRAL, properties) }
+    @JvmSynthetic
     fun setNegativeButton(
         text: CharSequence,
         listener: (() -> Unit)? = null,
