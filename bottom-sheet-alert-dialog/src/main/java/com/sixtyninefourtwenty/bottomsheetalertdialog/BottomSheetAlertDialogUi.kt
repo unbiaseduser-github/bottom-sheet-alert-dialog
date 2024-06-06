@@ -4,14 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogFullscreenUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogNotFullscreenUiBinding
+import com.sixtyninefourtwenty.bottomsheetalertdialog.misc.getWindowHeight
 
 /**
  * Class abstracting UI elements. A concrete implementation will be created by [BaseDialogBuilder]
@@ -106,7 +108,7 @@ private class BottomSheetAlertDialogFullscreenUi(context: Context) :
     override val negativeButton: Button = binding.negativeButton
     override val buttonContainer: RelativeLayout = binding.buttonContainer
     override val content: ScrollView = binding.content
-    override val root: RelativeLayout = binding.root
+    override val root: View = binding.root
 
     init {
         init()
@@ -125,10 +127,14 @@ private class BottomSheetAlertDialogNotFullscreenUi(context: Context) :
     override val negativeButton: Button = binding.negativeButton
     override val buttonContainer: RelativeLayout = binding.buttonContainer
     override val content: ScrollView = binding.content
-    override val root: LinearLayout = binding.root
+    override val root: View = binding.root
 
     init {
         init()
+        val windowHeight = context.getWindowHeight()
+        content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            this.matchConstraintMaxHeight = (windowHeight * 0.75).toInt()
+        }
     }
 
 }
