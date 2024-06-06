@@ -12,16 +12,26 @@ import java.util.function.Consumer
  * Base builder class. Can be publicly extended to create your own builders.
  *
  * Implementation notes: Subclasses must call [initDialogBehavior] to get correct dialog behavior.
+ *
+ * @param context Context that will be used to create the root view. Default is the supplied view's
+ * context.
+ * @param isFullscreen decides what layout to create for the root view and whether the dialog is
+ * draggable. The former is because I for the life of me can't create a layout that's universal for both long and
+ * short content views, and the latter is because content views are scrollable, and that conflicts
+ * with the [BottomSheetDialog]'s "drag down" gesture. If `true`, the dialog isn't draggable.
+ *
+ * **Note:** this parameter is ignored in landscape mode (the dialog always creates the "fullscreen"
+ * layout in that case).
  */
 abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
-    context: Context,
+    context: Context = view.context,
     isFullscreen: Boolean = false
 ) {
 
     private val shouldBeFullScreen: Boolean
     protected val ui: BottomSheetAlertDialogCommonUi
-    protected val actions: BottomSheetAlertDialogActions
+    val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
 
     /**

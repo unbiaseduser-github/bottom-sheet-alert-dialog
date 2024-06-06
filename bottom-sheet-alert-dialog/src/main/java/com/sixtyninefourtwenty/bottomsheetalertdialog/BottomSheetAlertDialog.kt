@@ -6,6 +6,11 @@ import android.view.View
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+/**
+ * Builder to show a regular [BottomSheetDialog].
+ *
+ * Usage: Call [show].
+ */
 class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
     view: View,
     isFullscreen: Boolean = false,
@@ -26,6 +31,11 @@ class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
 
 }
 
+/**
+ * Builder to create a view to be used in [BottomSheetDialogFragment]s.
+ *
+ * Usage: Get the view via [rootView] in [BottomSheetDialogFragment.onCreateView].
+ */
 class BottomSheetAlertDialogFragmentViewBuilder @JvmOverloads constructor(
     view: View,
     fragment: BottomSheetDialogFragment,
