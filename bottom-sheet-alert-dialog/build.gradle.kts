@@ -11,6 +11,7 @@ android {
     publishing {
         singleVariant("release") {
             withSourcesJar()
+            withJavadocJar()
         }
     }
 
@@ -56,6 +57,7 @@ afterEvaluate {
                 pom {
                     name.set("bottom-sheet-alert-dialog")
                     description.set("Create bottom sheets with title and buttons")
+                    url.set("https://github.com/unbiaseduser-github/bottom-sheet-alert-dialog")
 
                     licenses {
                         license {
@@ -69,8 +71,14 @@ afterEvaluate {
                             id.set("unbiaseduser")
                             name.set("Dang Quang Trung")
                             email.set("quangtrung02hn16@gmail.com")
-                            url.set("https://github.com/unbiaseduser")
+                            url.set("https://github.com/unbiaseduser-github")
                         }
+                    }
+
+                    scm {
+                        connection.set("scm:git:git://github.com/unbiaseduser-github/bottom-sheet-alert-dialog.git")
+                        developerConnection.set("scm:git:ssh://github.com:unbiaseduser-github/bottom-sheet-alert-dialog.git")
+                        url.set("https://github.com/unbiaseduser-github/bottom-sheet-alert-dialog/tree/master")
                     }
                 }
             }
