@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "bottom-sheet-alert-dialog"
 include(":bottom-sheet-alert-dialog")
+include(":playground")

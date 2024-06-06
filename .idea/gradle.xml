@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/bottom-sheet-alert-dialog" />
+            <option value="$PROJECT_DIR$/playground" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
