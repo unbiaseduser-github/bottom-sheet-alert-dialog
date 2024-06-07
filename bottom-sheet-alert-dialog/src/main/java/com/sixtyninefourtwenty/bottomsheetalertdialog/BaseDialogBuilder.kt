@@ -1,7 +1,6 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog
 
 import android.content.Context
-import android.content.res.Configuration
 import android.view.View
 import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -15,13 +14,7 @@ import java.util.function.Consumer
  *
  * @param context Context that will be used to create the root view. Default is the supplied view's
  * context.
- * @param isFullscreen decides what layout to create for the root view and whether the dialog is
- * draggable. The former is because I for the life of me can't create a layout that's universal for both long and
- * short content views, and the latter is because content views are scrollable, and that conflicts
- * with the [BottomSheetDialog]'s "drag down" gesture. If `true`, the dialog isn't draggable.
- *
- * **Note:** this parameter is ignored in landscape mode (the dialog always creates the "fullscreen"
- * layout in that case).
+ * @param isFullscreen Currently ignored and will be removed in the next major release.
  */
 abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
@@ -29,7 +22,6 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     isFullscreen: Boolean = false
 ) {
 
-    private val shouldBeFullScreen: Boolean
     protected val ui: BottomSheetAlertDialogCommonUi
     val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
@@ -99,17 +91,15 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     protected fun initDialogBehavior() {
         with(dialog.behavior) {
             state = BottomSheetBehavior.STATE_EXPANDED
-            if (shouldBeFullScreen) {
-                isDraggable = false
-            }
         }
     }
 
     init {
-        val isLandscape = context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        shouldBeFullScreen = isFullscreen || isLandscape
-        ui = BottomSheetAlertDialogCommonUi.create(context, shouldBeFullScreen).apply {
+        ui = BottomSheetAlertDialogCommonUi.create(context).apply {
             setContentView(view)
+            fullScreenListener = {
+                dialog.behavior.isDraggable = false
+            }
         }
         actions = BottomSheetAlertDialogActions(ui)
     }

@@ -11,18 +11,14 @@ import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
-import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogFullscreenUiBinding
-import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogNotFullscreenUiBinding
+import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.misc.getWindowHeight
 
 /**
- * Class abstracting UI elements. A concrete implementation will be created by [BaseDialogBuilder]
- * depending on [BaseDialogBuilder.shouldBeFullScreen].
- *
- * Provides methods for setting UI stuff, used by
+ * Class abstracting UI elements. Provides methods for setting UI stuff, used by
  * [BaseDialogBuilder] and subclasses.
  */
-sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
+sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     abstract val root: View
     protected abstract val title: TextView
     protected abstract val content: ScrollView
@@ -30,6 +26,8 @@ sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
     protected abstract val positiveButton: Button
     protected abstract val neutralButton: Button
     protected abstract val negativeButton: Button
+
+    internal var fullScreenListener: (() -> Unit)? = null
 
     fun setTitle(@StringRes titleRes: Int) {
         with(title) {
@@ -91,16 +89,16 @@ sealed class BottomSheetAlertDialogCommonUi(protected val context: Context) {
 
     companion object {
         @JvmSynthetic
-        internal fun create(context: Context, isFullscreen: Boolean) =
-            if (isFullscreen) BottomSheetAlertDialogFullscreenUi(context) else BottomSheetAlertDialogNotFullscreenUi(context)
+        internal fun create(context: Context): BottomSheetAlertDialogCommonUi =
+            BottomSheetAlertDialogUiImpl(context)
     }
 
 }
 
-private class BottomSheetAlertDialogFullscreenUi(context: Context) :
+private class BottomSheetAlertDialogUiImpl(context: Context) :
     BottomSheetAlertDialogCommonUi(context) {
 
-    private val binding = BottomSheetAlertDialogFullscreenUiBinding.inflate(LayoutInflater.from(context))
+    private val binding = BottomSheetAlertDialogUiBinding.inflate(LayoutInflater.from(context))
 
     override val title: TextView = binding.title
     override val positiveButton: Button = binding.positiveButton
@@ -112,28 +110,14 @@ private class BottomSheetAlertDialogFullscreenUi(context: Context) :
 
     init {
         init()
-    }
-
-}
-
-private class BottomSheetAlertDialogNotFullscreenUi(context: Context) :
-    BottomSheetAlertDialogCommonUi(context) {
-
-    private val binding = BottomSheetAlertDialogNotFullscreenUiBinding.inflate(LayoutInflater.from(context))
-
-    override val title: TextView = binding.title
-    override val positiveButton: Button = binding.positiveButton
-    override val neutralButton: Button = binding.neutralButton
-    override val negativeButton: Button = binding.negativeButton
-    override val buttonContainer: RelativeLayout = binding.buttonContainer
-    override val content: ScrollView = binding.content
-    override val root: View = binding.root
-
-    init {
-        init()
-        val windowHeight = context.getWindowHeight()
-        content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-            this.matchConstraintMaxHeight = (windowHeight * 0.75).toInt()
+        binding.root.post {
+            content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                this.matchConstraintMaxHeight = binding.root.height - binding.title.height - binding.buttonContainer.height
+            }
+            val windowHeight = context.getWindowHeight()
+            if (binding.root.height >= windowHeight * 0.95) {
+                fullScreenListener?.invoke()
+            }
         }
     }
 

@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 """.trimIndent()
             }).setTitle("Title")
                 .setPositiveButton(DialogButtonProperties(text = "OK"))
+                .setNegativeButton(text = "Lorem ipsum dolor sit amet")
                 .show()
         }
 

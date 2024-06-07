@@ -10,6 +10,9 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogActi
 import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogFragmentViewBuilder
 import com.sixtyninefourtwenty.bottomsheetalertdialog.DialogButtonProperties
 
+/**
+ * @param isFullscreen Currently ignored and will be removed in the next major release.
+ */
 fun BottomSheetDialogFragment.createBottomSheetAlertDialog(
     view: View,
     isFullscreen: Boolean = false,
