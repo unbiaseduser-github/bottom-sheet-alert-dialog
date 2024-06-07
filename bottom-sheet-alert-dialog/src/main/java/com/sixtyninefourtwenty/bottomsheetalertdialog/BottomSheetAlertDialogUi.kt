@@ -3,14 +3,15 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RelativeLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
+import com.google.android.material.button.MaterialButton
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.misc.getWindowHeight
 
@@ -22,7 +23,7 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     abstract val root: View
     protected abstract val title: TextView
     protected abstract val content: ScrollView
-    protected abstract val buttonContainer: RelativeLayout
+    protected abstract val buttonContainer: ViewGroup
     protected abstract val positiveButton: Button
     protected abstract val neutralButton: Button
     protected abstract val negativeButton: Button
@@ -101,10 +102,10 @@ private class BottomSheetAlertDialogUiImpl(context: Context) :
     private val binding = BottomSheetAlertDialogUiBinding.inflate(LayoutInflater.from(context))
 
     override val title: TextView = binding.title
-    override val positiveButton: Button = binding.positiveButton
-    override val neutralButton: Button = binding.neutralButton
-    override val negativeButton: Button = binding.negativeButton
-    override val buttonContainer: RelativeLayout = binding.buttonContainer
+    override val positiveButton: MaterialButton = binding.positiveButton
+    override val neutralButton: MaterialButton = binding.neutralButton
+    override val negativeButton: MaterialButton = binding.negativeButton
+    override val buttonContainer: ViewGroup = binding.buttonContainer
     override val content: ScrollView = binding.content
     override val root: View = binding.root
 

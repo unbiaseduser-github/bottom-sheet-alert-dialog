@@ -24,49 +24,62 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/button_container"/>
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/button_container"
+        style="?attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:paddingVertical="@dimen/bsad_button_container_padding_vertical"
+        android:fillViewport="true"
+        android:scrollIndicators="top|bottom"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/positive_button"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.ButtonBarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/bsad_positive_button_margin_end"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="@android:string/ok"/>
+            android:gravity="bottom"
+            android:layoutDirection="locale"
+            android:orientation="horizontal"
+            android:paddingVertical="@dimen/bsad_button_container_padding_vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/negative_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/positive_button"
-            android:layout_marginEnd="@dimen/bsad_negative_button_margin_end"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="@android:string/cancel"
-            style="?attr/borderlessButtonStyle"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/neutral_button"
+                style="?attr/buttonBarNeutralButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/bsad_neutral_button_margin_start"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="@android:string/cancel"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/neutral_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/bsad_neutral_button_margin_start"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="@android:string/cancel"
-            style="?attr/borderlessButtonStyle"/>
+            <android.widget.Space
+                android:id="@+id/spacer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="invisible"/>
 
-    </RelativeLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/negative_button"
+                style="?attr/buttonBarNegativeButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/bsad_negative_button_margin_end"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="@android:string/cancel"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/positive_button"
+                style="?attr/buttonBarPositiveButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/bsad_positive_button_margin_end"
+                android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="@android:string/ok"/>
+
+        </androidx.appcompat.widget.ButtonBarLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
