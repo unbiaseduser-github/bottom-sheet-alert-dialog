@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.get
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
@@ -27,8 +29,6 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     protected abstract val positiveButton: Button
     protected abstract val neutralButton: Button
     protected abstract val negativeButton: Button
-
-    internal var fullScreenListener: (() -> Unit)? = null
 
     fun setTitle(@StringRes titleRes: Int) {
         with(title) {
@@ -90,13 +90,25 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
 
     companion object {
         @JvmSynthetic
-        internal fun create(context: Context): BottomSheetAlertDialogCommonUi =
-            BottomSheetAlertDialogUiImpl(context)
+        internal fun create(
+            context: Context,
+            view: View,
+            isViewHeightDynamic: Boolean,
+            notFullscreenListener: () -> Unit,
+            fullscreenListener: () -> Unit
+        ): BottomSheetAlertDialogCommonUi =
+            BottomSheetAlertDialogUiImpl(context, view, isViewHeightDynamic, notFullscreenListener, fullscreenListener)
     }
 
 }
 
-private class BottomSheetAlertDialogUiImpl(context: Context) :
+private class BottomSheetAlertDialogUiImpl(
+    context: Context,
+    view: View,
+    isViewHeightDynamic: Boolean,
+    notFullscreenListener: () -> Unit,
+    fullscreenListener: () -> Unit
+) :
     BottomSheetAlertDialogCommonUi(context) {
 
     private val binding = BottomSheetAlertDialogUiBinding.inflate(LayoutInflater.from(context))
@@ -111,14 +123,43 @@ private class BottomSheetAlertDialogUiImpl(context: Context) :
 
     init {
         init()
-        binding.root.post {
-            content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                this.matchConstraintMaxHeight = binding.root.height - binding.title.height - binding.buttonContainer.height
+        setContentView(view)
+        if (!isViewHeightDynamic) {
+            root.post {
+                content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    this.matchConstraintMaxHeight = root.height - title.height - buttonContainer.height
+                }
+                val contentView = content[0]
+                if (contentView.height > content.height) {
+                    fullscreenListener()
+                } else {
+                    notFullscreenListener()
+                }
             }
+        } else {
             val windowHeight = context.getWindowHeight()
-            if (binding.root.height >= windowHeight * 0.95) {
-                fullScreenListener?.invoke()
-            }
+            content.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    content.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    val contentView = content[0]
+                    val maxHeightAllowedForContentFrame = windowHeight - title.height - buttonContainer.height
+                    if (contentView.height > maxHeightAllowedForContentFrame) {
+                        content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            this.matchConstraintMaxHeight = maxHeightAllowedForContentFrame
+                        }
+                    } else {
+                        content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            this.matchConstraintMaxHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
+                        }
+                    }
+                    if (contentView.height > content.height) {
+                        fullscreenListener()
+                    } else {
+                        notFullscreenListener()
+                    }
+                    content.viewTreeObserver.addOnGlobalLayoutListener(this)
+                }
+            })
         }
     }
 

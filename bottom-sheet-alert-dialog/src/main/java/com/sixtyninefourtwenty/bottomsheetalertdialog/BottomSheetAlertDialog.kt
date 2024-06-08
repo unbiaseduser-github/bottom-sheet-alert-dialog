@@ -14,12 +14,17 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  * @param context Context that will be used to create the root view. Default is the supplied view's
  * context.
  * @param isFullscreen Currently ignored and will be removed in the next major release.
+ * @param isContentViewHeightDynamic Whether the content view's height can be changed after being
+ * displayed on screen. Defaults to `false`. When kept at `false`, the layout works much more
+ * efficiently, but when the content view's height changes, the root view's height will not change
+ * with it.
  */
 class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
     view: View,
     isFullscreen: Boolean = false,
-    context: Context = view.context
-) : BaseDialogBuilder<BottomSheetAlertDialogBuilder>(view, context, isFullscreen) {
+    context: Context = view.context,
+    isContentViewHeightDynamic: Boolean = false
+) : BaseDialogBuilder<BottomSheetAlertDialogBuilder>(view, context, isFullscreen, isContentViewHeightDynamic) {
 
     override val dialog: BottomSheetDialog = BottomSheetDialog(context).apply {
         setContentView(ui.root)
@@ -43,13 +48,18 @@ class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
  * @param context Context that will be used to create the root view. Default is the supplied view's
  * context.
  * @param isFullscreen Currently ignored and will be removed in the next major release.
+ * @param isContentViewHeightDynamic Whether the content view's height can be changed after being
+ * displayed on screen. Defaults to `false`. When kept at `false`, the layout works much more
+ * efficiently, but when the content view's height changes, the root view's height will not change
+ * with it.
  */
 class BottomSheetAlertDialogFragmentViewBuilder @JvmOverloads constructor(
     view: View,
     fragment: BottomSheetDialogFragment,
     isFullscreen: Boolean = false,
-    context: Context = view.context
-) : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder>(view, context, isFullscreen) {
+    context: Context = view.context,
+    isContentViewHeightDynamic: Boolean = false
+) : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder>(view, context, isFullscreen, isContentViewHeightDynamic) {
 
     override val dialog: BottomSheetDialog = fragment.requireDialog() as BottomSheetDialog
 

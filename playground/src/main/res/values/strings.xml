@@ -2,4 +2,5 @@
     <string name="app_name">Bottom Sheet Alert Dialog Playground</string>
     <string name="show_short_dialog">Show short dialog</string>
     <string name="show_long_dialog">Show long dialog</string>
+    <string name="toggle">Toggle</string>
 </resources>

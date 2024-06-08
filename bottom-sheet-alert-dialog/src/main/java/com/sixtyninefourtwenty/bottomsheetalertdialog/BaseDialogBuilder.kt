@@ -15,11 +15,16 @@ import java.util.function.Consumer
  * @param context Context that will be used to create the root view. Default is the supplied view's
  * context.
  * @param isFullscreen Currently ignored and will be removed in the next major release.
+ * @param isContentViewHeightDynamic Whether the content view's height can be changed after being
+ * displayed on screen. Defaults to `false`. When kept at `false`, the layout works much more
+ * efficiently, but when the content view's height changes, the root view's height will not change
+ * with it.
  */
 abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
     context: Context = view.context,
-    isFullscreen: Boolean = false
+    isFullscreen: Boolean = false,
+    isContentViewHeightDynamic: Boolean = false
 ) {
 
     protected val ui: BottomSheetAlertDialogCommonUi
@@ -95,12 +100,17 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     }
 
     init {
-        ui = BottomSheetAlertDialogCommonUi.create(context).apply {
-            setContentView(view)
-            fullScreenListener = {
+        ui = BottomSheetAlertDialogCommonUi.create(
+            context,
+            view,
+            isContentViewHeightDynamic,
+            {
+                dialog.behavior.isDraggable = true
+            },
+            {
                 dialog.behavior.isDraggable = false
             }
-        }
+        )
         actions = BottomSheetAlertDialogActions(ui)
     }
 
