@@ -124,10 +124,11 @@ private class BottomSheetAlertDialogUiImpl(
     init {
         init()
         setContentView(view)
+        val windowHeight = context.getWindowHeight()
         if (!isViewHeightDynamic) {
             root.post {
                 content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    this.matchConstraintMaxHeight = root.height - title.height - buttonContainer.height
+                    this.matchConstraintMaxHeight = windowHeight - title.height - buttonContainer.height
                 }
                 val contentView = content[0]
                 if (contentView.height > content.height) {
@@ -137,29 +138,23 @@ private class BottomSheetAlertDialogUiImpl(
                 }
             }
         } else {
-            val windowHeight = context.getWindowHeight()
-            content.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    content.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    val contentView = content[0]
-                    val maxHeightAllowedForContentFrame = windowHeight - title.height - buttonContainer.height
-                    if (contentView.height > maxHeightAllowedForContentFrame) {
-                        content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            this.matchConstraintMaxHeight = maxHeightAllowedForContentFrame
-                        }
-                    } else {
-                        content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            this.matchConstraintMaxHeight = ConstraintLayout.LayoutParams.WRAP_CONTENT
-                        }
-                    }
-                    if (contentView.height > content.height) {
-                        fullscreenListener()
-                    } else {
-                        notFullscreenListener()
-                    }
-                    content.viewTreeObserver.addOnGlobalLayoutListener(this)
+            root.post {
+                content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    this.matchConstraintMaxHeight = windowHeight - title.height - buttonContainer.height
                 }
-            })
+                content.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        content.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        val contentView = content[0]
+                        if (contentView.height > content.height) {
+                            fullscreenListener()
+                        } else {
+                            notFullscreenListener()
+                        }
+                        content.viewTreeObserver.addOnGlobalLayoutListener(this)
+                    }
+                })
+            }
         }
     }
 
