@@ -12,13 +12,27 @@ import java.util.function.Consumer
  *
  * Implementation notes: Subclasses must call [initDialogBehavior] to get correct dialog behavior.
  *
+ * @param view The content view, which also determines the dialog's draggability - if the view is
+ * tall enough to be eligible for scrolling, the dialog will not be draggable (to avoid conflict with
+ * scrolling the content view). This is evaluated only once if `isContentViewHeightDynamic` is `false`
+ * and multiple times throughout the dialog's lifecycle when `isContentViewHeightDynamic` is `true`.
  * @param context Context that will be used to create the root view. Default is the supplied view's
  * context.
  * @param isFullscreen Currently ignored and will be removed in the next major release.
  * @param isContentViewHeightDynamic Whether the content view's height can be changed after being
- * displayed on screen. Defaults to `false`. When kept at `false`, the layout works much more
- * efficiently, but when the content view's height changes, the root view's height will not change
- * with it.
+ * displayed on screen (and so does the dialog's draggability). Defaults to `false` to maintain
+ * behavior compatibility with old versions, will be set to `true` in the next major version. When
+ * kept at `false`, the layout works much more efficiently, but when the content view's height changes,
+ * the dialog's draggability doesn't change.
+ *
+ * Implications of this:
+ * - If the view is initially short but can become tall, the dialog will still be draggable when
+ * that happens, which causes conflict as mentioned in the `view` parameter above.
+ * - If the view is initially tall but can become short, the dialog will *not* be draggable when
+ * that happens, which is an inconsistency between "dialogs initialized with short view" and
+ * "dialogs initialized with tall view but becomes short later".
+ *
+ * Setting this to `false` should be considered an optimization with views whose height is immutable.
  */
 abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     view: View,
@@ -28,6 +42,11 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
 ) {
 
     protected val ui: BottomSheetAlertDialogCommonUi
+
+    /**
+     * The builder's [BottomSheetAlertDialogActions] object. You might want to use [doActions]
+     * instead of accessing this directly to keep the fluent syntax.
+     */
     val actions: BottomSheetAlertDialogActions
     protected abstract val dialog: BottomSheetDialog
 
@@ -88,6 +107,30 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     ) = self().apply { applyBtnProps(DialogButton.NEGATIVE, text, listener, dismissAfterClick) }
     fun setNegativeButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEGATIVE, properties) }
 
+    /**
+     * Fluent method for accessing [actions].
+     *
+     * Calling this:
+     * ```
+     * private lateinit var actions: BottomSheetAlertDialogActions
+     *
+     * fun foo() {
+     *     dialogBuilder
+     *         .doActions { actions -> this.actions = actions }
+     *         .someMethod()
+     * }
+     * ```
+     * is equivalent to
+     * ```
+     * private lateinit var actions: BottomSheetAlertDialogActions
+     *
+     * fun foo() {
+     *      val dialogBuilder: BaseDialogBuilder<*> = ...
+     *      this.actions = dialogBuilder.actions
+     *      dialogBuilder.someMethod()
+     * }
+     * ```
+     */
     fun doActions(block: Consumer<in BottomSheetAlertDialogActions>) = self().apply { block.accept(actions) }
 
     /**

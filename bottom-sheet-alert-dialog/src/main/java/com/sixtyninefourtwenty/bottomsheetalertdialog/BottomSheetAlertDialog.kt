@@ -11,13 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  *
  * Usage: Call [show].
  *
- * @param context Context that will be used to create the root view. Default is the supplied view's
- * context.
- * @param isFullscreen Currently ignored and will be removed in the next major release.
- * @param isContentViewHeightDynamic Whether the content view's height can be changed after being
- * displayed on screen. Defaults to `false`. When kept at `false`, the layout works much more
- * efficiently, but when the content view's height changes, the root view's height will not change
- * with it.
+ * See [BaseDialogBuilder] for explanation of parameters.
  */
 class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
     view: View,
@@ -43,15 +37,9 @@ class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
 /**
  * Builder to create a view to be used in [BottomSheetDialogFragment]s.
  *
- * Usage: Get the view via [rootView] in [BottomSheetDialogFragment.onCreateView].
+ * Usage: Get the view via [rootView] in [the fragment's onCreateView][BottomSheetDialogFragment.onCreateView].
  *
- * @param context Context that will be used to create the root view. Default is the supplied view's
- * context.
- * @param isFullscreen Currently ignored and will be removed in the next major release.
- * @param isContentViewHeightDynamic Whether the content view's height can be changed after being
- * displayed on screen. Defaults to `false`. When kept at `false`, the layout works much more
- * efficiently, but when the content view's height changes, the root view's height will not change
- * with it.
+ * See [BaseDialogBuilder] for explanation of parameters.
  */
 class BottomSheetAlertDialogFragmentViewBuilder @JvmOverloads constructor(
     view: View,
