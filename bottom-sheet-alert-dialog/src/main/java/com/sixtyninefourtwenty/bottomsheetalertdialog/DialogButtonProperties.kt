@@ -3,8 +3,8 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog
 
 import androidx.annotation.StringRes
+import androidx.core.util.Consumer
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import java.util.function.Consumer
 
 /**
  * Represents properties that will be applied to the bottom sheet view's buttons via the builders'

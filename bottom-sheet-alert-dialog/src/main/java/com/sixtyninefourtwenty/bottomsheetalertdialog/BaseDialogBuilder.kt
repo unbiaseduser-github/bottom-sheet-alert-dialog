@@ -3,9 +3,9 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.core.util.Consumer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import java.util.function.Consumer
 
 /**
  * Base builder class. Can be publicly extended to create your own builders.
