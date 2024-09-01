@@ -3,6 +3,7 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 
 import android.content.Context
 import android.view.View
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -12,23 +13,26 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  * Usage: Call [show].
  *
  * See [BaseDialogBuilder] for explanation of parameters.
+ *
+ * @param dialog Custom dialog to use as the "base". Note that the below listed modifications are controlled by
+ * the library:
+ * - [BottomSheetDialog.setContentView]
+ * - [BottomSheetBehavior.setDraggable]
  */
 class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
     view: View,
     isFullscreen: Boolean = false,
     context: Context = view.context,
-    isContentViewHeightDynamic: Boolean = false
+    isContentViewHeightDynamic: Boolean = false,
+    override val dialog: BottomSheetDialog = BottomSheetDialog(context)
 ) : BaseDialogBuilder<BottomSheetAlertDialogBuilder>(view, context, isFullscreen, isContentViewHeightDynamic) {
-
-    override val dialog: BottomSheetDialog = BottomSheetDialog(context).apply {
-        setContentView(ui.root)
-    }
 
     override fun self() = this
 
     fun show() = dialog.show()
 
     init {
+        dialog.setContentView(ui.root)
         initDialogBehavior()
     }
 
