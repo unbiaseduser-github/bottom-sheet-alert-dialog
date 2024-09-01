@@ -8,6 +8,13 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogFragmentViewBuilder
 
+@Deprecated(
+    message = "Use ViewBindingBottomSheetAlertDialogFragment instead.",
+    replaceWith = ReplaceWith(
+        expression = "ViewBindingBottomSheetAlertDialogFragment",
+        imports = ["com.sixtyninefourtwenty.bottomsheetalertdialog.misc.ViewBindingBottomSheetAlertDialogFragment"]
+    )
+)
 abstract class BaseBottomSheetAlertDialogFragment<VB : ViewBinding> : BottomSheetDialogFragment() {
 
     private var _root: View? = null
