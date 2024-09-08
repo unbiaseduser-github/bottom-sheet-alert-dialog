@@ -11,6 +11,8 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogFrag
 import com.sixtyninefourtwenty.bottomsheetalertdialog.DialogButtonProperties
 
 /**
+ * Creates a [BottomSheetAlertDialogFragmentViewBuilder] using named/default parameters.
+ *
  * @param isFullscreen Currently ignored and will be removed in the next major release.
  */
 fun BottomSheetDialogFragment.createBottomSheetAlertDialog(

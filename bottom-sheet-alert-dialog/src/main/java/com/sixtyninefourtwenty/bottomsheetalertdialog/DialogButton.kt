@@ -1,5 +1,9 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog
 
+/**
+ * Intermediate interface to help code referring to [DialogButton] switch to [BottomSheetAlertDialogButton].
+ * This, as well as [DialogButton] will be removed in the next major version.
+ */
 sealed interface DialogButtonEnum
 
 @Deprecated(
