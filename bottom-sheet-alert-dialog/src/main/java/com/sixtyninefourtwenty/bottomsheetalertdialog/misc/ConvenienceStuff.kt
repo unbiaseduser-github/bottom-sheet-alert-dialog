@@ -17,12 +17,19 @@ fun BottomSheetDialogFragment.createBottomSheetAlertDialog(
     view: View,
     isFullscreen: Boolean = false,
     context: Context = view.context,
+    isContentViewHeightDynamic: Boolean = false,
     titleText: CharSequence? = null,
     positiveButtonProperties: DialogButtonProperties? = null,
     neutralButtonProperties: DialogButtonProperties? = null,
     negativeButtonProperties: DialogButtonProperties? = null,
     action: ((BottomSheetAlertDialogActions) -> Unit)? = null
-) = BottomSheetAlertDialogFragmentViewBuilder(view, this, isFullscreen, context).apply {
+) = BottomSheetAlertDialogFragmentViewBuilder(
+    view,
+    this,
+    isFullscreen,
+    context,
+    isContentViewHeightDynamic
+).apply {
     if (titleText != null) {
         setTitle(titleText)
     }
