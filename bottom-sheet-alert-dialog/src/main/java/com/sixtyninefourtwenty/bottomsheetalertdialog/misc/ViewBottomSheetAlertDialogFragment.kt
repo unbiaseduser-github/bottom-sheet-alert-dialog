@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogFragmentViewBuilder
 
+/**
+ * Convenience [BottomSheetDialogFragment] subclass for use with [BottomSheetAlertDialogFragmentViewBuilder].
+ *
+ * Mirrors `ViewFragment` from [base-fragments](https://gitlab.com/unbiaseduser/base-fragments).
+ */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class ViewBottomSheetAlertDialogFragment<V : View>(
     private val viewCreation: (Context) -> V

@@ -8,6 +8,11 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sixtyninefourtwenty.bottomsheetalertdialog.BottomSheetAlertDialogFragmentViewBuilder
 
+/**
+ * Convenience [BottomSheetDialogFragment] subclass for use with [BottomSheetAlertDialogFragmentViewBuilder].
+ *
+ * Mirrors `ViewBindingFragment` from [base-fragments](https://gitlab.com/unbiaseduser/base-fragments).
+ */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class ViewBindingBottomSheetAlertDialogFragment<VB : ViewBinding>(
     private val bindingCreation: (LayoutInflater, ViewGroup?, Boolean) -> VB
