@@ -59,7 +59,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
     fun setTitle(titleText: CharSequence) = self().apply { ui.setTitle(titleText) }
 
     private fun applyBtnProps(
-        whichButton: DialogButton,
+        whichButton: DialogButtonEnum,
         text: CharSequence,
         listener: (() -> Unit)?,
         dismissAfterClick: Boolean
@@ -74,7 +74,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
         }
     }
 
-    private fun applyBtnProps(whichButton: DialogButton, props: DialogButtonProperties) {
+    private fun applyBtnProps(whichButton: DialogButtonEnum, props: DialogButtonProperties) {
         ui.setButtonAppearance(whichButton, props)
         ui.setButtonOnClickListener(whichButton) {
             props.listenerWithDialog?.accept(dialog)
@@ -90,22 +90,22 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
         text: CharSequence,
         listener: (() -> Unit)? = null,
         dismissAfterClick: Boolean = true
-    ) = self().apply { applyBtnProps(DialogButton.POSITIVE, text, listener, dismissAfterClick) }
-    fun setPositiveButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.POSITIVE, properties) }
+    ) = self().apply { applyBtnProps(BottomSheetAlertDialogButton.POSITIVE, text, listener, dismissAfterClick) }
+    fun setPositiveButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(BottomSheetAlertDialogButton.POSITIVE, properties) }
     @JvmSynthetic
     fun setNeutralButton(
         text: CharSequence,
         listener: (() -> Unit)? = null,
         dismissAfterClick: Boolean = true
-    ) = self().apply { applyBtnProps(DialogButton.NEUTRAL, text, listener, dismissAfterClick) }
-    fun setNeutralButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEUTRAL, properties) }
+    ) = self().apply { applyBtnProps(BottomSheetAlertDialogButton.NEUTRAL, text, listener, dismissAfterClick) }
+    fun setNeutralButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(BottomSheetAlertDialogButton.NEUTRAL, properties) }
     @JvmSynthetic
     fun setNegativeButton(
         text: CharSequence,
         listener: (() -> Unit)? = null,
         dismissAfterClick: Boolean = true
-    ) = self().apply { applyBtnProps(DialogButton.NEGATIVE, text, listener, dismissAfterClick) }
-    fun setNegativeButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(DialogButton.NEGATIVE, properties) }
+    ) = self().apply { applyBtnProps(BottomSheetAlertDialogButton.NEGATIVE, text, listener, dismissAfterClick) }
+    fun setNegativeButton(properties: DialogButtonProperties) = self().apply { applyBtnProps(BottomSheetAlertDialogButton.NEGATIVE, properties) }
 
     /**
      * Fluent method for accessing [actions].

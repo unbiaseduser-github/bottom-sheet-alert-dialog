@@ -51,15 +51,27 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         }
     }
 
-    private fun getButton(whichButton: DialogButton): Button {
+    @Suppress("DEPRECATION")
+    private fun getButton(whichButton: DialogButtonEnum): Button {
         return when (whichButton) {
-            DialogButton.POSITIVE -> positiveButton
-            DialogButton.NEGATIVE -> negativeButton
-            DialogButton.NEUTRAL -> neutralButton
+            is DialogButton -> {
+                when (whichButton) {
+                    DialogButton.POSITIVE -> positiveButton
+                    DialogButton.NEGATIVE -> negativeButton
+                    DialogButton.NEUTRAL -> neutralButton
+                }
+            }
+            is BottomSheetAlertDialogButton -> {
+                when (whichButton) {
+                    BottomSheetAlertDialogButton.POSITIVE -> positiveButton
+                    BottomSheetAlertDialogButton.NEGATIVE -> negativeButton
+                    BottomSheetAlertDialogButton.NEUTRAL -> neutralButton
+                }
+            }
         }
     }
 
-    fun setButtonAppearance(whichButton: DialogButton, textRes: Int, text: CharSequence?) {
+    fun setButtonAppearance(whichButton: DialogButtonEnum, textRes: Int, text: CharSequence?) {
         with(getButton(whichButton)) {
             visibility = View.VISIBLE
             when {
@@ -69,15 +81,15 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         }
     }
 
-    fun setButtonAppearance(whichButton: DialogButton, properties: ButtonAppearanceProperties) {
+    fun setButtonAppearance(whichButton: DialogButtonEnum, properties: ButtonAppearanceProperties) {
         setButtonAppearance(whichButton, properties.textRes, properties.text)
     }
 
-    fun setButtonOnClickListener(whichButton: DialogButton, onClickListener: View.OnClickListener) {
+    fun setButtonOnClickListener(whichButton: DialogButtonEnum, onClickListener: View.OnClickListener) {
         getButton(whichButton).setOnClickListener(onClickListener)
     }
 
-    fun setButtonEnabled(whichButton: DialogButton, enabled: Boolean) {
+    fun setButtonEnabled(whichButton: DialogButtonEnum, enabled: Boolean) {
         getButton(whichButton).isEnabled = enabled
     }
 
