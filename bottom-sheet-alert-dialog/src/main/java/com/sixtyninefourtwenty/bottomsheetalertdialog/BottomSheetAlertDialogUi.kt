@@ -55,10 +55,6 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         }
     }
 
-    fun setButtonAppearance(whichButton: BottomSheetAlertDialogButton, properties: ButtonAppearanceProperties) {
-        setButtonAppearance(whichButton, properties.text)
-    }
-
     fun setButtonOnClickListener(whichButton: BottomSheetAlertDialogButton, onClickListener: View.OnClickListener) {
         getButton(whichButton).setOnClickListener(onClickListener)
     }
