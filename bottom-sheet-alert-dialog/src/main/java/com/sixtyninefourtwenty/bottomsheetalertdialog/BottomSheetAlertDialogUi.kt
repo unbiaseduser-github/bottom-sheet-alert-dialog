@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import androidx.core.view.updateLayoutParams
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
@@ -28,13 +26,6 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     protected abstract val neutralButton: Button
     protected abstract val negativeButton: Button
 
-    fun setTitle(@StringRes titleRes: Int) {
-        with(title) {
-            visibility = View.VISIBLE
-            setText(titleRes)
-        }
-    }
-
     fun setTitle(titleText: CharSequence) {
         with(title) {
             visibility = View.VISIBLE
@@ -49,45 +40,30 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         }
     }
 
-    @Suppress("DEPRECATION")
-    private fun getButton(whichButton: DialogButtonEnum): Button {
+    private fun getButton(whichButton: BottomSheetAlertDialogButton): Button {
         return when (whichButton) {
-            is DialogButton -> {
-                when (whichButton) {
-                    DialogButton.POSITIVE -> positiveButton
-                    DialogButton.NEGATIVE -> negativeButton
-                    DialogButton.NEUTRAL -> neutralButton
-                }
-            }
-            is BottomSheetAlertDialogButton -> {
-                when (whichButton) {
-                    BottomSheetAlertDialogButton.POSITIVE -> positiveButton
-                    BottomSheetAlertDialogButton.NEGATIVE -> negativeButton
-                    BottomSheetAlertDialogButton.NEUTRAL -> neutralButton
-                }
-            }
+            BottomSheetAlertDialogButton.POSITIVE -> positiveButton
+            BottomSheetAlertDialogButton.NEGATIVE -> negativeButton
+            BottomSheetAlertDialogButton.NEUTRAL -> neutralButton
         }
     }
 
-    fun setButtonAppearance(whichButton: DialogButtonEnum, textRes: Int, text: CharSequence?) {
+    fun setButtonAppearance(whichButton: BottomSheetAlertDialogButton, text: CharSequence) {
         with(getButton(whichButton)) {
             visibility = View.VISIBLE
-            when {
-                textRes != 0 -> setText(textRes)
-                text != null -> setText(text)
-            }
+            setText(text)
         }
     }
 
-    fun setButtonAppearance(whichButton: DialogButtonEnum, properties: ButtonAppearanceProperties) {
-        setButtonAppearance(whichButton, properties.textRes, properties.text)
+    fun setButtonAppearance(whichButton: BottomSheetAlertDialogButton, properties: ButtonAppearanceProperties) {
+        setButtonAppearance(whichButton, properties.text)
     }
 
-    fun setButtonOnClickListener(whichButton: DialogButtonEnum, onClickListener: View.OnClickListener) {
+    fun setButtonOnClickListener(whichButton: BottomSheetAlertDialogButton, onClickListener: View.OnClickListener) {
         getButton(whichButton).setOnClickListener(onClickListener)
     }
 
-    fun setButtonEnabled(whichButton: DialogButtonEnum, enabled: Boolean) {
+    fun setButtonEnabled(whichButton: BottomSheetAlertDialogButton, enabled: Boolean) {
         getButton(whichButton).isEnabled = enabled
     }
 
@@ -102,22 +78,16 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         @JvmSynthetic
         internal fun create(
             context: Context,
-            view: View,
-            isViewHeightDynamic: Boolean,
-            notFullscreenListener: () -> Unit,
-            fullscreenListener: () -> Unit
+            view: View
         ): BottomSheetAlertDialogCommonUi =
-            BottomSheetAlertDialogUiImpl(context, view, isViewHeightDynamic, notFullscreenListener, fullscreenListener)
+            BottomSheetAlertDialogUiImpl(context, view)
     }
 
 }
 
 private class BottomSheetAlertDialogUiImpl(
     context: Context,
-    view: View,
-    isViewHeightDynamic: Boolean,
-    notFullscreenListener: () -> Unit,
-    fullscreenListener: () -> Unit
+    view: View
 ) :
     BottomSheetAlertDialogCommonUi(context) {
 
@@ -135,31 +105,9 @@ private class BottomSheetAlertDialogUiImpl(
         init()
         setContentView(view)
         val windowHeight = context.getWindowHeight()
-        if (!isViewHeightDynamic) {
-            root.post {
-                content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    this.matchConstraintMaxHeight = windowHeight - title.height - buttonContainer.height
-                }
-                val contentView = content[0]
-                if (contentView.height > content.height) {
-                    fullscreenListener()
-                } else {
-                    notFullscreenListener()
-                }
-            }
-        } else {
-            root.post {
-                content.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    this.matchConstraintMaxHeight = windowHeight - title.height - buttonContainer.height
-                }
-                content.viewTreeObserver.addOnGlobalLayoutListener {
-                    val contentView = content[0]
-                    if (contentView.height > content.height) {
-                        fullscreenListener()
-                    } else {
-                        notFullscreenListener()
-                    }
-                }
+        root.post {
+            content.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                this.matchConstraintMaxHeight = windowHeight - title.height - buttonContainer.height
             }
         }
     }

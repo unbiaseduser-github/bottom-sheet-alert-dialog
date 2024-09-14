@@ -6,11 +6,11 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 @Suppress("unused")
 class BottomSheetAlertDialogActions internal constructor(private val ui: BottomSheetAlertDialogCommonUi) {
 
-    fun enableButton(button: DialogButtonEnum) {
+    fun enableButton(button: BottomSheetAlertDialogButton) {
         ui.setButtonEnabled(button, true)
     }
 
-    fun disableButton(button: DialogButtonEnum) {
+    fun disableButton(button: BottomSheetAlertDialogButton) {
         ui.setButtonEnabled(button, false)
     }
 
