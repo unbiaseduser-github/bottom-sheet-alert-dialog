@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +22,7 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.misc.getWindowHeight
 sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     abstract val root: View
     protected abstract val title: TextView
-    protected abstract val content: ScrollView
+    protected abstract val content: ViewGroup
     protected abstract val buttonContainer: ViewGroup
     protected abstract val positiveButton: Button
     protected abstract val neutralButton: Button
@@ -129,7 +128,7 @@ private class BottomSheetAlertDialogUiImpl(
     override val neutralButton: MaterialButton = binding.neutralButton
     override val negativeButton: MaterialButton = binding.negativeButton
     override val buttonContainer: ViewGroup = binding.buttonContainer
-    override val content: ScrollView = binding.content
+    override val content: ViewGroup = binding.content
     override val root: View = binding.root
 
     init {
