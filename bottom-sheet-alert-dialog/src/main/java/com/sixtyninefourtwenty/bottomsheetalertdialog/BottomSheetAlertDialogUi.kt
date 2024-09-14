@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.ScrollView
 import android.widget.TextView
@@ -154,18 +153,14 @@ private class BottomSheetAlertDialogUiImpl(
                 content.updateLayoutParams<ConstraintLayout.LayoutParams> {
                     this.matchConstraintMaxHeight = windowHeight - title.height - buttonContainer.height
                 }
-                content.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                    override fun onGlobalLayout() {
-                        content.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        val contentView = content[0]
-                        if (contentView.height > content.height) {
-                            fullscreenListener()
-                        } else {
-                            notFullscreenListener()
-                        }
-                        content.viewTreeObserver.addOnGlobalLayoutListener(this)
+                content.viewTreeObserver.addOnGlobalLayoutListener {
+                    val contentView = content[0]
+                    if (contentView.height > content.height) {
+                        fullscreenListener()
+                    } else {
+                        notFullscreenListener()
                     }
-                })
+                }
             }
         }
     }
