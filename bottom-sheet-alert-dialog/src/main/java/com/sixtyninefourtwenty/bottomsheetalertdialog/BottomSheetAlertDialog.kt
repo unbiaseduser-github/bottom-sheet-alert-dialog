@@ -15,9 +15,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  * modifications are controlled by the library:
  * - [BottomSheetDialog.setContentView]
  */
-class BottomSheetAlertDialogBuilder : BaseDialogBuilder<BottomSheetAlertDialogBuilder> {
+open class BottomSheetAlertDialogBuilder : BaseDialogBuilder<BottomSheetAlertDialogBuilder> {
 
-    override val dialog: BottomSheetDialog
+    final override val dialog: BottomSheetDialog
 
     @JvmOverloads
     constructor(
@@ -54,9 +54,9 @@ class BottomSheetAlertDialogBuilder : BaseDialogBuilder<BottomSheetAlertDialogBu
  *
  * Usage: Get the view via [rootView] in [the fragment's onCreateView][BottomSheetDialogFragment.onCreateView].
  */
-class BottomSheetAlertDialogFragmentViewBuilder : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder> {
+open class BottomSheetAlertDialogFragmentViewBuilder : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder> {
 
-    override val dialog: BottomSheetDialog
+    final override val dialog: BottomSheetDialog
 
     constructor(fragment: BottomSheetDialogFragment, context: Context) : super(context) {
         dialog = fragment.requireDialog() as BottomSheetDialog
