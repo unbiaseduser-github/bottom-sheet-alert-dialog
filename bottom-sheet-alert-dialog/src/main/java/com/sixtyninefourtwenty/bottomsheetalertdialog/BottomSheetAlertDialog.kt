@@ -11,8 +11,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  *
  * Usage: Call [show].
  *
- * See [BaseDialogBuilder] for explanation of parameters.
- *
  * All constructors take an optional custom dialog to use as the "base". Note that the below listed
  * modifications are controlled by the library:
  * - [BottomSheetDialog.setContentView]
@@ -55,8 +53,6 @@ class BottomSheetAlertDialogBuilder : BaseDialogBuilder<BottomSheetAlertDialogBu
  * Builder to create a view to be used in [BottomSheetDialogFragment]s.
  *
  * Usage: Get the view via [rootView] in [the fragment's onCreateView][BottomSheetDialogFragment.onCreateView].
- *
- * See [BaseDialogBuilder] for explanation of parameters.
  */
 class BottomSheetAlertDialogFragmentViewBuilder : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder> {
 
