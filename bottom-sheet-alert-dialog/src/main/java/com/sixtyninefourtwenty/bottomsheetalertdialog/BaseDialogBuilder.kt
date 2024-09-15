@@ -117,4 +117,6 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(context: Context) {
 
     fun expandDialog() = self().apply { dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED }
 
+    fun collapseDialog() = self().apply { dialog.behavior.state = BottomSheetBehavior.STATE_COLLAPSED }
+
 }
