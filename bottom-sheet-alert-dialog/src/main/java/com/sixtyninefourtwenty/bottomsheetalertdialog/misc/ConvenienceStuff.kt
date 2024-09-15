@@ -14,27 +14,34 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.DialogButtonProperties
  * Creates a [BottomSheetAlertDialogFragmentViewBuilder] using named/default parameters.
  */
 fun BottomSheetDialogFragment.createBottomSheetAlertDialog(
-    view: View,
-    context: Context = view.context,
+    view: View? = null,
+    context: Context = requireContext(),
     titleText: CharSequence? = null,
     positiveButtonProperties: DialogButtonProperties? = null,
     neutralButtonProperties: DialogButtonProperties? = null,
     negativeButtonProperties: DialogButtonProperties? = null,
     action: ((BottomSheetAlertDialogActions) -> Unit)? = null
-) = BottomSheetAlertDialogFragmentViewBuilder(view, this, context).apply {
-    if (titleText != null) {
-        setTitle(titleText)
+): BottomSheetAlertDialogFragmentViewBuilder {
+    val builder = if (view != null) {
+        BottomSheetAlertDialogFragmentViewBuilder(view, this, context)
+    } else {
+        BottomSheetAlertDialogFragmentViewBuilder(this, context)
     }
-    if (positiveButtonProperties != null) {
-        setPositiveButton(positiveButtonProperties)
-    }
-    if (neutralButtonProperties != null) {
-        setNeutralButton(neutralButtonProperties)
-    }
-    if (negativeButtonProperties != null) {
-        setNegativeButton(negativeButtonProperties)
-    }
-    if (action != null) {
-        doActions(action::invoke)
+    return builder.apply {
+        if (titleText != null) {
+            setTitle(titleText)
+        }
+        if (positiveButtonProperties != null) {
+            setPositiveButton(positiveButtonProperties)
+        }
+        if (neutralButtonProperties != null) {
+            setNeutralButton(neutralButtonProperties)
+        }
+        if (negativeButtonProperties != null) {
+            setNegativeButton(negativeButtonProperties)
+        }
+        if (action != null) {
+            doActions(action::invoke)
+        }
     }
 }

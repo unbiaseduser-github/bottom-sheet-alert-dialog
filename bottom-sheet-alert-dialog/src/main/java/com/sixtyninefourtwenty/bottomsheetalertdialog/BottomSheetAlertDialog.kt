@@ -13,21 +13,38 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
  *
  * See [BaseDialogBuilder] for explanation of parameters.
  *
- * @param dialog Custom dialog to use as the "base". Note that the below listed modifications are controlled by
- * the library:
+ * All constructors take an optional custom dialog to use as the "base". Note that the below listed
+ * modifications are controlled by the library:
  * - [BottomSheetDialog.setContentView]
  */
-class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
-    view: View,
-    context: Context = view.context,
-    override val dialog: BottomSheetDialog = BottomSheetDialog(context)
-) : BaseDialogBuilder<BottomSheetAlertDialogBuilder>(view, context) {
+class BottomSheetAlertDialogBuilder : BaseDialogBuilder<BottomSheetAlertDialogBuilder> {
+
+    override val dialog: BottomSheetDialog
+
+    @JvmOverloads
+    constructor(
+        context: Context,
+        dialog: BottomSheetDialog = BottomSheetDialog(context)
+    ) : super(context) {
+        this.dialog = dialog
+        initCommon()
+    }
+
+    @JvmOverloads
+    constructor(
+        view: View,
+        context: Context = view.context,
+        dialog: BottomSheetDialog = BottomSheetDialog(context)
+    ) : super(view, context) {
+        this.dialog = dialog
+        initCommon()
+    }
 
     override fun self() = this
 
     fun show() = dialog.show()
 
-    init {
+    private fun initCommon() {
         dialog.setContentView(ui.root)
         expandDialog()
     }
@@ -41,20 +58,23 @@ class BottomSheetAlertDialogBuilder @JvmOverloads constructor(
  *
  * See [BaseDialogBuilder] for explanation of parameters.
  */
-class BottomSheetAlertDialogFragmentViewBuilder @JvmOverloads constructor(
-    view: View,
-    fragment: BottomSheetDialogFragment,
-    context: Context = view.context
-) : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder>(view, context) {
+class BottomSheetAlertDialogFragmentViewBuilder : BaseDialogBuilder<BottomSheetAlertDialogFragmentViewBuilder> {
 
-    override val dialog: BottomSheetDialog = fragment.requireDialog() as BottomSheetDialog
+    override val dialog: BottomSheetDialog
+
+    constructor(fragment: BottomSheetDialogFragment, context: Context) : super(context) {
+        dialog = fragment.requireDialog() as BottomSheetDialog
+        expandDialog()
+    }
+
+    @JvmOverloads
+    constructor(view: View, fragment: BottomSheetDialogFragment, context: Context = view.context) : super(view, context) {
+        dialog = fragment.requireDialog() as BottomSheetDialog
+        expandDialog()
+    }
 
     override fun self() = this
 
     val rootView get() = ui.root
-
-    init {
-        expandDialog()
-    }
 
 }

@@ -3,23 +3,24 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 import android.content.Context
 import android.view.View
 import androidx.core.util.Consumer
-import androidx.core.widget.NestedScrollView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialogContentView
 
 /**
  * Base builder class. Can be publicly extended to create your own builders.
- *
- * @param view The content view, will be put into a [NestedScrollView].
- * @param context Context that will be used to create the root view. Default is the supplied view's
- * context.
  */
-abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
-    view: View,
-    context: Context = view.context
-) {
+abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(context: Context) {
 
-    protected val ui: BottomSheetAlertDialogCommonUi = BottomSheetAlertDialogCommonUi.create(context, view)
+    /**
+     * Convenience constructor that calls [setContentView] with [BottomSheetAlertDialogContentView.verticallyScrollable].
+     */
+    @JvmOverloads
+    constructor(view: View, context: Context = view.context) : this(context) {
+        setContentView(BottomSheetAlertDialogContentView.verticallyScrollable(view))
+    }
+
+    protected val ui: BottomSheetAlertDialogCommonUi = BottomSheetAlertDialogCommonUi.create(context)
 
     /**
      * The builder's [BottomSheetAlertDialogActions] object. You might want to use [doActions]
@@ -32,6 +33,8 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(
      * Subclasses must override this method to `return this`
      */
     protected abstract fun self(): T
+
+    fun setContentView(view: BottomSheetAlertDialogContentView) = self().apply { ui.setContentView(view) }
 
     fun setTitle(titleText: CharSequence) = self().apply { ui.setTitle(titleText) }
 

@@ -12,6 +12,7 @@ import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.misc.getWindowHeight
+import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialogContentView
 
 /**
  * Class abstracting UI elements. Provides methods for setting UI stuff, used by
@@ -33,10 +34,10 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         }
     }
 
-    fun setContentView(view: View) {
+    fun setContentView(view: BottomSheetAlertDialogContentView) {
         with(content) {
             removeAllViews()
-            addView(view)
+            addView(view.root)
         }
     }
 
@@ -73,19 +74,16 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     companion object {
         @JvmSynthetic
         internal fun create(
-            context: Context,
-            view: View
+            context: Context
         ): BottomSheetAlertDialogCommonUi =
-            BottomSheetAlertDialogUiImpl(context, view)
+            BottomSheetAlertDialogUiImpl(context)
     }
 
 }
 
 private class BottomSheetAlertDialogUiImpl(
-    context: Context,
-    view: View
-) :
-    BottomSheetAlertDialogCommonUi(context) {
+    context: Context
+) : BottomSheetAlertDialogCommonUi(context) {
 
     private val binding = BottomSheetAlertDialogUiBinding.inflate(LayoutInflater.from(context))
 
@@ -99,7 +97,6 @@ private class BottomSheetAlertDialogUiImpl(
 
     init {
         init()
-        setContentView(view)
         val windowHeight = context.getWindowHeight()
         root.post {
             content.updateLayoutParams<ConstraintLayout.LayoutParams> {
