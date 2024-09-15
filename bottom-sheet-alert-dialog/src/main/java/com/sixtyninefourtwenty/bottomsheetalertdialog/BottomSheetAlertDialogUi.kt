@@ -27,17 +27,19 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
     protected abstract val neutralButton: Button
     protected abstract val negativeButton: Button
 
-    fun setTitle(titleText: CharSequence) {
+    fun setTitle(titleText: CharSequence?) {
         with(title) {
-            visibility = View.VISIBLE
+            visibility = if (titleText != null) View.VISIBLE else View.GONE
             text = titleText
         }
     }
 
-    fun setContentView(view: BottomSheetAlertDialogContentView) {
+    fun setContentView(view: BottomSheetAlertDialogContentView?) {
         with(content) {
             removeAllViews()
-            addView(view.root)
+            if (view != null) {
+                addView(view.root)
+            }
         }
     }
 
@@ -49,9 +51,9 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         }
     }
 
-    fun setButtonAppearance(whichButton: BottomSheetAlertDialogButton, text: CharSequence) {
+    fun setButtonAppearance(whichButton: BottomSheetAlertDialogButton, text: CharSequence?) {
         with(getButton(whichButton)) {
-            visibility = View.VISIBLE
+            visibility = if (text != null) View.VISIBLE else View.GONE
             setText(text)
         }
     }

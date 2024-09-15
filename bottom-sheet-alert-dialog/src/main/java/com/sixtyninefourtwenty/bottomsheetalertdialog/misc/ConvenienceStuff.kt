@@ -27,21 +27,10 @@ fun BottomSheetDialogFragment.createBottomSheetAlertDialog(
     } else {
         BottomSheetAlertDialogFragmentViewBuilder(this, context)
     }
-    return builder.apply {
-        if (titleText != null) {
-            setTitle(titleText)
-        }
-        if (positiveButtonProperties != null) {
-            setPositiveButton(positiveButtonProperties)
-        }
-        if (neutralButtonProperties != null) {
-            setNeutralButton(neutralButtonProperties)
-        }
-        if (negativeButtonProperties != null) {
-            setNegativeButton(negativeButtonProperties)
-        }
-        if (action != null) {
-            doActions(action::invoke)
-        }
-    }
+    return builder
+        .setTitle(titleText)
+        .setPositiveButton(positiveButtonProperties)
+        .setNeutralButton(neutralButtonProperties)
+        .setNegativeButton(negativeButtonProperties)
+        .doActions(action?.let { a -> { a(it) } })
 }
