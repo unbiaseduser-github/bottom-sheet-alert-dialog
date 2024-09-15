@@ -18,7 +18,7 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialo
  * Class abstracting UI elements. Provides methods for setting UI stuff, used by
  * [BaseDialogBuilder] and subclasses.
  */
-sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
+sealed class BottomSheetAlertDialogUi(private val context: Context) {
     abstract val root: View
     protected abstract val title: TextView
     protected abstract val content: ViewGroup
@@ -77,7 +77,7 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
         @JvmSynthetic
         internal fun create(
             context: Context
-        ): BottomSheetAlertDialogCommonUi =
+        ): BottomSheetAlertDialogUi =
             BottomSheetAlertDialogUiImpl(context)
     }
 
@@ -85,7 +85,7 @@ sealed class BottomSheetAlertDialogCommonUi(private val context: Context) {
 
 private class BottomSheetAlertDialogUiImpl(
     context: Context
-) : BottomSheetAlertDialogCommonUi(context) {
+) : BottomSheetAlertDialogUi(context) {
 
     private val binding = BottomSheetAlertDialogUiBinding.inflate(LayoutInflater.from(context))
 

@@ -20,7 +20,7 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(context: Context) {
         setContentView(BottomSheetAlertDialogContentView.verticallyScrollable(view))
     }
 
-    protected val ui: BottomSheetAlertDialogCommonUi = BottomSheetAlertDialogCommonUi.create(context)
+    protected val ui: BottomSheetAlertDialogUi = BottomSheetAlertDialogUi.create(context)
 
     /**
      * The builder's [BottomSheetAlertDialogActions] object. You might want to use [doActions]
