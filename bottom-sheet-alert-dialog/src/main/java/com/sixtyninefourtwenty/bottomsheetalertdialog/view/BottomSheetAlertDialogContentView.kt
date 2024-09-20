@@ -10,7 +10,7 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialo
  * Call [unmodified] for an unmodified view, or [verticallyScrollable] to wrap the view in a [NestedScrollView].
  */
 @Suppress("unused")
-sealed interface BottomSheetAlertDialogContentView {
+interface BottomSheetAlertDialogContentView {
     val root: View
 
     companion object {
