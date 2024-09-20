@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
 import com.google.android.material.button.MaterialButton
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogUiBinding
@@ -56,6 +57,24 @@ sealed class BottomSheetAlertDialogUi(private val context: Context) {
             visibility = if (text != null) View.VISIBLE else View.GONE
             setText(text)
         }
+        var isAnyButtonVisible = false
+        for (b in BottomSheetAlertDialogButton.entries) {
+            if (getButton(b).visibility == View.VISIBLE) {
+                isAnyButtonVisible = true
+                val paddingVertical = context.resources.getDimensionPixelSize(R.dimen.bsad_button_container_padding_vertical)
+                buttonContainer.updatePadding(
+                    top = paddingVertical,
+                    bottom = paddingVertical
+                )
+                break
+            }
+        }
+        if (!isAnyButtonVisible) {
+            buttonContainer.updatePadding(
+                top = 0,
+                bottom = 0
+            )
+        }
     }
 
     fun setButtonOnClickListener(whichButton: BottomSheetAlertDialogButton, onClickListener: View.OnClickListener) {
@@ -93,7 +112,7 @@ private class BottomSheetAlertDialogUiImpl(
     override val positiveButton: MaterialButton = binding.positiveButton
     override val neutralButton: MaterialButton = binding.neutralButton
     override val negativeButton: MaterialButton = binding.negativeButton
-    override val buttonContainer: ViewGroup = binding.buttonContainer
+    override val buttonContainer: ViewGroup = binding.buttonBar
     override val content: ViewGroup = binding.content
     override val root: View = binding.root
 

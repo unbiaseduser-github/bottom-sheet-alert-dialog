@@ -34,12 +34,13 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.appcompat.widget.ButtonBarLayout
+            android:id="@+id/button_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom"
             android:layoutDirection="locale"
             android:orientation="horizontal"
-            android:paddingVertical="@dimen/bsad_button_container_padding_vertical">
+            tools:paddingVertical="@dimen/bsad_button_container_padding_vertical">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/neutral_button"
