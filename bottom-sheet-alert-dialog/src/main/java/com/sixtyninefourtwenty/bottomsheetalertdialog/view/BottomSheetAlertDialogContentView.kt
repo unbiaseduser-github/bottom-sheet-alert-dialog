@@ -2,6 +2,8 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog.view
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Px
+import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -58,6 +60,27 @@ interface BottomSheetAlertDialogContentView {
             binding: ViewBinding,
             layoutParams: ViewGroup.LayoutParams? = null
         ) = verticallyScrollable(binding.root, layoutParams)
+
+        /**
+         * Creates a [BottomSheetAlertDialogContentView] with the [bottomPadding] applied to the [view].
+         *
+         * Useful for when no button is set, to prevent the content view from running into the bottom edge.
+         */
+        @JvmStatic
+        fun bottomPadded(
+            view: View,
+            @Px bottomPadding: Int
+        ): BottomSheetAlertDialogContentView = BottomPaddedBottomSheetAlertDialogContentView(view, bottomPadding)
+
+        /**
+         * Convenience for `bottomPadded(binding.root, bottomPadding)`
+         */
+        @JvmStatic
+        fun bottomPadded(
+            binding: ViewBinding,
+            @Px bottomPadding: Int
+        ) = bottomPadded(binding.root, bottomPadding)
+
     }
 }
 
@@ -82,6 +105,17 @@ private class VerticallyScrollableBottomSheetAlertDialogContentView(
                 addView(contentView)
             }
         }
+    }
+
+}
+
+private class BottomPaddedBottomSheetAlertDialogContentView(
+    override val root: View,
+    @Px bottomPadding: Int
+) : BottomSheetAlertDialogContentView {
+
+    init {
+        root.updatePadding(bottom = bottomPadding)
     }
 
 }
