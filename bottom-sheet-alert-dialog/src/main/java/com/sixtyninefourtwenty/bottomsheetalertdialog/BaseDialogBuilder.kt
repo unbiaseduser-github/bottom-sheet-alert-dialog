@@ -2,6 +2,7 @@ package com.sixtyninefourtwenty.bottomsheetalertdialog
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.util.Consumer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -34,7 +35,14 @@ abstract class BaseDialogBuilder<T : BaseDialogBuilder<T>>(context: Context) {
      */
     protected abstract fun self(): T
 
-    fun setContentView(view: BottomSheetAlertDialogContentView?) = self().apply { ui.setContentView(view) }
+    /**
+     * @see BottomSheetAlertDialogUi.setContentView
+     */
+    @JvmOverloads
+    fun setContentView(
+        view: BottomSheetAlertDialogContentView?,
+        layoutParams: ViewGroup.LayoutParams? = null
+    ) = self().apply { ui.setContentView(view, layoutParams) }
 
     fun setTitle(titleText: CharSequence?) = self().apply { ui.setTitle(titleText) }
 

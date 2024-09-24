@@ -1,8 +1,10 @@
 package com.sixtyninefourtwenty.bottomsheetalertdialog.view
 
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialogContentView.Companion.unmodified
 import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialogContentView.Companion.verticallyScrollable
 
@@ -28,22 +30,42 @@ interface BottomSheetAlertDialogContentView {
 
         /**
          * Creates a [BottomSheetAlertDialogContentView] with the [contentView] wrapped in a [NestedScrollView].
+         *
+         * @param layoutParams If `null`, `addView(View)` will be called on the scroll view, else
+         * `addView(View, ViewGroup.LayoutParams)`. Note that when using a [BottomSheetDialogFragment],
+         * the fragment breaks the view's layout params:
+         * ```
+         * override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+         *     val view = inflater.inflate(R.layout..., container, false) // Breaks root view's layout params
+         * }
+         * ```
+         * thus [layoutParams] is highly recommended to be non-null when using a [BottomSheetDialogFragment].
+         * @see ViewGroup.addView
          */
         @JvmStatic
-        fun verticallyScrollable(contentView: View): BottomSheetAlertDialogContentView = VerticallyScrollableBottomSheetAlertDialogContentView(contentView)
+        @JvmOverloads
+        fun verticallyScrollable(
+            contentView: View,
+            layoutParams: ViewGroup.LayoutParams? = null
+        ): BottomSheetAlertDialogContentView = VerticallyScrollableBottomSheetAlertDialogContentView(contentView, layoutParams)
 
         /**
-         * Convenience for `verticallyScrollable(binding.root)`
+         * Convenience for `verticallyScrollable(binding.root, layoutParams)`
          */
         @JvmStatic
-        fun verticallyScrollable(binding: ViewBinding) = verticallyScrollable(binding.root)
+        @JvmOverloads
+        fun verticallyScrollable(
+            binding: ViewBinding,
+            layoutParams: ViewGroup.LayoutParams? = null
+        ) = verticallyScrollable(binding.root, layoutParams)
     }
 }
 
 private class UnmodifiedBottomSheetAlertDialogContentView(override val root: View) : BottomSheetAlertDialogContentView
 
 private class VerticallyScrollableBottomSheetAlertDialogContentView(
-    contentView: View
+    contentView: View,
+    layoutParams: ViewGroup.LayoutParams?
 ) : BottomSheetAlertDialogContentView {
 
     private val scrollView: NestedScrollView = NestedScrollView(contentView.context)
@@ -54,7 +76,11 @@ private class VerticallyScrollableBottomSheetAlertDialogContentView(
     init {
         with(scrollView) {
             removeAllViews()
-            addView(contentView)
+            if (layoutParams != null) {
+                addView(contentView, layoutParams)
+            } else {
+                addView(contentView)
+            }
         }
     }
 

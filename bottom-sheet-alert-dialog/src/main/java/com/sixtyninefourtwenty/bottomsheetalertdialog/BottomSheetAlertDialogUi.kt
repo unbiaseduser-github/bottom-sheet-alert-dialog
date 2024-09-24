@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.TextViewCompat
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import com.sixtyninefourtwenty.bottomsheetalertdialog.databinding.BottomSheetAlertDialogUiBinding
 import com.sixtyninefourtwenty.bottomsheetalertdialog.misc.getWindowHeight
@@ -35,11 +36,30 @@ sealed class BottomSheetAlertDialogUi(private val context: Context) {
         }
     }
 
-    fun setContentView(view: BottomSheetAlertDialogContentView?) {
+    /**
+     * @param layoutParams If `null`, `addView(View)` will be called on the content frame, else
+     * `addView(View, ViewGroup.LayoutParams)`. Note that when using a [BottomSheetDialogFragment],
+     * the fragment breaks the view's layout params:
+     * ```
+     * override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+     *     val view = inflater.inflate(R.layout..., container, false) // Breaks the root view's layout params
+     * }
+     * ```
+     *  thus [layoutParams] is highly recommended to be non-null when using a [BottomSheetDialogFragment].
+     */
+    @JvmOverloads
+    fun setContentView(
+        view: BottomSheetAlertDialogContentView?,
+        layoutParams: ViewGroup.LayoutParams? = null
+    ) {
         with(content) {
             removeAllViews()
             if (view != null) {
-                addView(view.root)
+                if (layoutParams != null) {
+                    addView(view.root, layoutParams)
+                } else {
+                    addView(view.root)
+                }
             }
         }
     }
