@@ -8,7 +8,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialogContentView.Companion.unmodified
-import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialogContentView.Companion.verticallyScrollable
 
 /**
  * Call [unmodified] for an unmodified view, or [verticallyScrollable] to wrap the view in a [NestedScrollView].
@@ -16,6 +15,9 @@ import com.sixtyninefourtwenty.bottomsheetalertdialog.view.BottomSheetAlertDialo
 @Suppress("unused")
 interface BottomSheetAlertDialogContentView {
     val root: View
+
+    fun verticallyScrollable(layoutParams: ViewGroup.LayoutParams?) = verticallyScrollable(root, layoutParams)
+    fun bottomPadded(@Px bottomPadding: Int) = bottomPadded(root, bottomPadding)
 
     companion object {
         /**
